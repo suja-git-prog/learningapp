@@ -1,0 +1,7 @@
+C:\Users\sujat\Documents\AZ204\Sample\bin\Publish\learningapp.exe
+C:\Users\sujat\Documents\AZ204\Sample\bin\Publish\appsettings.Development.json
+C:\Users\sujat\Documents\AZ204\Sample\bin\Publish\appsettings.json
+C:\Users\sujat\Documents\AZ204\Sample\bin\Publish\learningapp.dll
+C:\Users\sujat\Documents\AZ204\Sample\bin\Publish\learningapp.deps.json
+C:\Users\sujat\Documents\AZ204\Sample\bin\Publish\learningapp.runtimeconfig.json
+C:\Users\sujat\Documents\AZ204\Sample\bin\Publish\learningapp.pdb
