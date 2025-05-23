@@ -28,7 +28,7 @@ jobs:
         run: nuget restore
 
       - name: Publish to folder
-        run: msbuild /nologo /verbosity:m /t:Build /t:pipelinePreDeployCopyAllFilesToOneFolder /p:_PackageTempDir="\published\"
+        run: dotnet publish ./YourProject.csproj --configuration Release --output ./published
 
       - name: Upload artifact for deployment job
         uses: actions/upload-artifact@v4
