@@ -36,34 +36,38 @@ jobs:
           name: ASP-app
           path: './published/**'
 
-  deploy:
-    runs-on: windows-latest
-    needs: build
-    environment:
-      name: 'Production'
-      url: ${{ steps.deploy-to-webapp.outputs.webapp-url }}
-    permissions:
-      id-token: write #This is required for requesting the JWT
-      contents: read #This is required for actions/checkout
+deploy:
+  runs-on: windows-latest
+  needs: build
+  environment:
+    name: 'Production'
+    url: ${{ steps.deploy-to-webapp.outputs.webapp-url }}
+  permissions:
+    id-token: write
+    contents: read
 
-    steps:
-      - name: Download artifact from build job
-        uses: actions/download-artifact@v4
-        with:
-          name: ASP-app
-      
-      - name: Login to Azure
-        uses: azure/login@v2
-        with:
-          client-id: ${{ secrets.AZUREAPPSERVICE_CLIENTID_4FBFB0870BCB4034BA55B42D036FCC25 }}
-          tenant-id: ${{ secrets.AZUREAPPSERVICE_TENANTID_472AE4B43DD64EC59C0C4814A3EDD554 }}
-          subscription-id: ${{ secrets.AZUREAPPSERVICE_SUBSCRIPTIONID_C016F685DF1E4C36ADC0BF96FE65DA80 }}
+  steps:
+    - name: Download artifact from build job
+      uses: actions/download-artifact@v4
+      with:
+        name: ASP-app
 
-      - name: Deploy to Azure Web App
-        id: deploy-to-webapp
-        uses: azure/webapps-deploy@v3
-        with:
-          app-name: 'appvm'
-          slot-name: 'Production'
-          package: ./ASP-app
+    - name: Zip artifact for deployment
+      run: Compress-Archive -Path ASP-app\* -DestinationPath ASP-app.zip
+
+    - name: Login to Azure
+      uses: azure/login@v2
+      with:
+        client-id: ${{ secrets.AZUREAPPSERVICE_CLIENTID_4FBFB0870BCB4034BA55B42D036FCC25 }}
+        tenant-id: ${{ secrets.AZUREAPPSERVICE_TENANTID_472AE4B43DD64EC59C0C4814A3EDD554 }}
+        subscription-id: ${{ secrets.AZUREAPPSERVICE_SUBSCRIPTIONID_C016F685DF1E4C36ADC0BF96FE65DA80 }}
+
+    - name: Deploy to Azure Web App
+      id: deploy-to-webapp
+      uses: azure/webapps-deploy@v3
+      with:
+        app-name: 'appvm'
+        slot-name: 'Production'
+        package: ASP-app.zip
+
           
