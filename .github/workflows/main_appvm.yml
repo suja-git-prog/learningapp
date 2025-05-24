@@ -51,6 +51,7 @@ jobs:
         uses: actions/download-artifact@v4
         with:
           name: ASP-app
+          path: ASP-app
   
       - name: Zip artifact for deployment
         run: Compress-Archive -Path ASP-app\* -DestinationPath ASP-app.zip
